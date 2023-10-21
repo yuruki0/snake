@@ -10,6 +10,10 @@ coord_queue* coord_queue_init(int n) {
     newSnake->tail = 0;
     return newSnake;
 }
+void coord_queue_delete(coord_queue* queue) {
+    free(queue->array);
+    free(queue);
+}
 void coord_queue_push(coord_queue* queue, coord coords) {
     queue->array[queue->head] = coords;
     queue->head += 1;
