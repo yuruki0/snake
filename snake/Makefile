@@ -26,7 +26,7 @@ snake: ${OBJ}
 test: ${TEST_BIN}
 	${foreach test,${TEST_BIN},${test} &&}:
 
-${CWD}/bin/tests/snake/%.test: %.test.c ${BUILD_DIR}/snake/%.o
+${CWD}/bin/tests/snake/%.test: %.test.c ${OBJ}
 	mkdir -p ${dir $@}
 	${CC} ${CFLAGS} $^ ${BUILD_DIR}/external/unity/unity.o -o $@ ${LDFLAGS}
 

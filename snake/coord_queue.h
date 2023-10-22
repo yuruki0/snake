@@ -1,5 +1,5 @@
-#ifndef coord_queue_h
-#define coord_queue_h
+#ifndef snake_coord_queue_h
+#define snake_coord_queue_h
 
 typedef struct coord {
     int x, y;
