@@ -1,4 +1,3 @@
--I
-external
--I
-.
+-Wall
+-I.
+-Iexternal

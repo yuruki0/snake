@@ -89,3 +89,11 @@ void coord_queue_runAllTests() {
     RUN_TEST(test_FiveItemsFullRandomUnseeded);
     RUN_TEST(test_ThreeItemsLoopRandomUnseeded);
 }
+
+void setUp() {}
+void tearDown() {}
+int main() {
+    UNITY_BEGIN();
+    coord_queue_runAllTests();
+    UNITY_END();
+}

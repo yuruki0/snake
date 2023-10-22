@@ -1,26 +1,42 @@
 CC := clang
-CFLAGS := -Wall -I . -I external
 
-SRC := ${filter-out ${wildcard ./snake/*.test.c}, ${wildcard ./snake/*.c}}
-OBJ := ${patsubst %.c, build/%.o, ${SRC}}
+ifndef ${CWD}
+CWD := ${shell pwd}
+endif
 
-TEST_SRC := ${wildcard ./tests/*.c ./external/unity/*.c}
-TEST_OBJ := ${patsubst %.c, build/%.o, ${TEST_SRC}}
+BUILD_DIR := ${CWD}/build
+CFLAGS_PLAIN := -Wall -I. -Iexternal
+CFLAGS := ${subst -I,-I${PWD}/, ${CFLAGS_PLAIN}}
 
-test: snake ${TEST_OBJ}
-	mkdir -p bin
-	${CC} ${CFLAGS} ${TEST_OBJ} ${filter-out build/./snake/main.o, ${OBJ}} -o ./bin/snake_test ${LDFLAGS}
-	./bin/snake_test
+BUILDS := ${filter-out bin/ build/, ${wildcard */}}
+TEST_BUILDS := ${foreach dir,${BUILDS},test_${dir}}
 
-snake: ${OBJ}
-	mkdir -p bin
-	echo ${SRC}
-	${CC} ${CFLAGS} ${OBJ} -o bin/snake ${LDFLAGS}
+export CC
+export CWD
+export CFLAGS
+export BUILD_DIR
 
-build/%.o : %.c
-	mkdir -p ${dir $@}
-	${CC} -o $@ $< -c ${CFLAGS}
+.PHONY: all
+all: ${BUILDS} compile_flags
+
+.PHONY: ${BUILDS}
+${BUILDS}: external
+	${MAKE} -C $@
+
+.PHONY: test
+test: ${TEST_BUILDS}
+
+.PHONY: ${TEST_BUILDS}
+${TEST_BUILDS}:
+	-${MAKE} -C ${subst test_,,$@} test -k
+
+compile_flags:
+	touch ${CWD}/compile_flags.txt
+	rm ${CWD}/compile_flags.txt
+	${foreach flag,${CFLAGS_PLAIN},echo "${flag}" >> ${CWD}/compile_flags.txt &&} :
+	echo ${CFLAGS}
 
 clean:
-	rm -rf build
+	rm -rf build/*
+	rm -rf bin/*
 	
