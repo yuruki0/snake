@@ -4,6 +4,7 @@ SRC := ${filter-out \
 	   ${wildcard *.test.c}, \
 	   ${wildcard *.c}}
 OBJ := ${patsubst %.c, ${BUILD_DIR}/snake/%.o, ${SRC}}
+MAIN := ${BUILD_DIR}/snake/main.o
 TEST_SRC := ${wildcard *.test.c}
 TEST_BIN := ${patsubst %.c, ${CWD}/bin/tests/snake/%, ${TEST_SRC}}
 
@@ -26,7 +27,7 @@ snake: ${OBJ}
 test: ${TEST_BIN}
 	${foreach test,${TEST_BIN},${test} &&}:
 
-${CWD}/bin/tests/snake/%.test: %.test.c ${OBJ}
+${CWD}/bin/tests/snake/%.test: %.test.c ${filter-out ${MAIN}, ${OBJ}}
 	mkdir -p ${dir $@}
 	${CC} ${CFLAGS} $^ ${BUILD_DIR}/external/unity/unity.o -o $@ ${LDFLAGS}
 
