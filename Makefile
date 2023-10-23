@@ -30,6 +30,9 @@ test: ${TEST_BUILDS}
 ${TEST_BUILDS}:
 	-${MAKE} -C ${subst test_,,$@} test -k
 
+run: all
+	bin/snake
+
 compile_flags:
 	touch ${CWD}/compile_flags.txt
 	rm ${CWD}/compile_flags.txt
