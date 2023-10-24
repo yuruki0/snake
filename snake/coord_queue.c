@@ -1,6 +1,6 @@
-#include <stdlib.h>
-
 #include <snake/coord_queue.h>
+
+#include <stdlib.h>
 
 coord_queue* coord_queue_init(int n) {
     coord_queue* newSnake = malloc(sizeof(coord_queue));
