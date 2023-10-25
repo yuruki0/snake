@@ -13,12 +13,19 @@ Board* board_init(int n) {
 }
 void board_snake_start(Board* b) {
     srand(time(NULL));
-    int i_apple = (int) (rand() % (b->size * b->size));
-
-    b->tiles[i_apple] = apple;
 }
 TileState board_get_tile(Board* b, int x, int y) {
     return b->tiles[x + b->size * y];
 }
 void board_delete(Board* b) {
+    free(b->tiles);
+    free(b);
+}
+void board_move_apple(Board* b) {
+    int i = rand() % (b->size * b->size);
+    while (b->tiles[i] == occupied) {
+        if (++i == b->size * b->size)
+            i = 0;
+    }
+    b->tiles[i] = apple;
 }
