@@ -9,8 +9,8 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
-struct termios orig_termios;
-struct winsize sz;
+static struct termios orig_termios;
+static struct winsize sz;
 
 void disable_raw_terminal() {
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
