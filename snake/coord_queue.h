@@ -3,16 +3,18 @@
 
 typedef struct coord {
     int x, y;
-} coord;
+} Coord;
 
 typedef struct coord_queue {
-    coord* array;
+    Coord* array;
     int head, tail, capacity;
-} coord_queue;
+} CoordQueue;
 
-coord_queue* coord_queue_init(int n);
-void coord_queue_delete(coord_queue* queue);
-void coord_queue_push(coord_queue* queue, coord coords);
-coord coord_queue_pop(coord_queue* queue);
+CoordQueue* coord_queue_init(int n);
+void coord_queue_delete(CoordQueue* queue);
+void coord_queue_push(CoordQueue* queue, Coord coords);
+Coord coord_queue_pop(CoordQueue* queue);
+Coord coord_queue_peek_back(CoordQueue* queue);
+Coord coord_queue_peek(CoordQueue* queue);
 
 #endif

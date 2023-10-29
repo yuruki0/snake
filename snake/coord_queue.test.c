@@ -5,14 +5,16 @@
 #include <snake/coord_queue.h>
 
 void test_OneItemRandomUnseeded(void) {
-    coord_queue* cq = coord_queue_init(1);
+    CoordQueue* cq = coord_queue_init(1);
 
     srand(1);
     int x = rand();
     int y = rand();
 
-    coord_queue_push(cq, (coord) { x, y } );
-    coord c = coord_queue_pop(cq);
+    coord_queue_push(cq, (Coord) { x, y } );
+    TEST_ASSERT(coord_queue_peek_back(cq).x == x);
+    TEST_ASSERT(coord_queue_peek_back(cq).y == y);
+    Coord c = coord_queue_pop(cq);
 
     TEST_ASSERT(c.x == x);
     TEST_ASSERT(c.y == y);
@@ -21,14 +23,16 @@ void test_OneItemRandomUnseeded(void) {
 }
 
 void test_OneItemRandomSeeded(void) {
-    coord_queue* cq = coord_queue_init(1);
+    CoordQueue* cq = coord_queue_init(1);
 
     srand(time(NULL));
     int x = rand();
     int y = rand();
 
-    coord_queue_push(cq, (coord) { x, y } );
-    coord c = coord_queue_pop(cq);
+    coord_queue_push(cq, (Coord) { x, y } );
+    TEST_ASSERT(coord_queue_peek_back(cq).x == x);
+    TEST_ASSERT(coord_queue_peek_back(cq).y == y);
+    Coord c = coord_queue_pop(cq);
 
     TEST_ASSERT(c.x == x);
     TEST_ASSERT(c.y == y);
@@ -37,7 +41,7 @@ void test_OneItemRandomSeeded(void) {
 }
 
 void test_FiveItemsFullRandomUnseeded(void) {
-    coord_queue* cq = coord_queue_init(5);
+    CoordQueue* cq = coord_queue_init(5);
 
     int xa[5];
     int ya[5];
@@ -47,11 +51,13 @@ void test_FiveItemsFullRandomUnseeded(void) {
     for (int i = 0; i < 5; i++) {
         xa[i] = rand();
         ya[i] = rand();
-        coord_queue_push(cq, (coord) { xa[i], ya[i] } );
+        coord_queue_push(cq, (Coord) { xa[i], ya[i] } );
+        TEST_ASSERT(coord_queue_peek_back(cq).x == xa[i]);
+        TEST_ASSERT(coord_queue_peek_back(cq).y == ya[i]);
     }
 
     for (int i = 0; i < 5; i++) {
-        coord c = coord_queue_pop(cq);
+        Coord c = coord_queue_pop(cq);
         TEST_ASSERT(c.x == xa[i]);
         TEST_ASSERT(c.y == ya[i]);
     }
@@ -59,7 +65,7 @@ void test_FiveItemsFullRandomUnseeded(void) {
     coord_queue_delete(cq);
 }
 void test_ThreeItemsLoopRandomUnseeded(void) {
-    coord_queue* cq = coord_queue_init(5);
+    CoordQueue* cq = coord_queue_init(5);
 
     int xa[3];
     int ya[3];
@@ -70,11 +76,13 @@ void test_ThreeItemsLoopRandomUnseeded(void) {
         for (int i = 0; i < 3; i++) {
             xa[i] = rand();
             ya[i] = rand();
-            coord_queue_push(cq, (coord) { xa[i], ya[i] } );
+            coord_queue_push(cq, (Coord) { xa[i], ya[i] } );
+            TEST_ASSERT(coord_queue_peek_back(cq).x == xa[i]);
+            TEST_ASSERT(coord_queue_peek_back(cq).y == ya[i]);
         }
     
         for (int i = 0; i < 3; i++) {
-            coord c = coord_queue_pop(cq);
+            Coord c = coord_queue_pop(cq);
             TEST_ASSERT(c.x == xa[i]);
             TEST_ASSERT(c.y == ya[i]);
         }
