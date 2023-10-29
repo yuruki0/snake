@@ -8,7 +8,7 @@ Board* board_init(int n) {
     b->size = n;
     b->tiles = malloc(sizeof(TileState) * n * n);
     for (int i = 0; i < n * n; i++)
-        b->tiles[i] = unoccupied;
+        b->tiles[i] = UNOCCUPIED;
     return b;
 }
 void board_snake_start(Board* b) {
@@ -26,11 +26,11 @@ void board_delete(Board* b) {
 }
 void board_move_apple(Board* b) {
     int i = rand() % (b->size * b->size);
-    while (b->tiles[i] != unoccupied) {
+    while (b->tiles[i] != UNOCCUPIED) {
         if (++i == b->size * b->size)
             i = 0;
     }
-    b->tiles[i] = apple;
+    b->tiles[i] = APPLE;
 }
 bool validate_coord(Board* b, Coord* c) {
     if (c->x < 0)

@@ -4,7 +4,11 @@
 #ifndef snake_board_h
 #define snake_board_h
 
-typedef enum TileState {occupied, unoccupied, apple} TileState;
+typedef enum TileState {
+    OCCUPIED,
+    UNOCCUPIED,
+    APPLE
+} TileState;
 
 typedef struct Board {
     enum TileState* tiles;

@@ -24,11 +24,11 @@ void printBoard(Board* b, int x, int y) {
             printf("┃");
         }
         TileState* tiles = b->tiles;
-        if (tiles[i] == apple)
+        if (tiles[i] == APPLE)
             printf("🍎");
-        if (tiles[i] == unoccupied)
+        if (tiles[i] == UNOCCUPIED)
             printf("  ");
-        if (tiles[i] == occupied)
+        if (tiles[i] == OCCUPIED)
             printf("██");
     }
     printf("┃");
