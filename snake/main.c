@@ -1,35 +1,67 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <threads.h>
+#include <time.h>
 
 #include <unistd.h>
 #include <sys/ioctl.h>
 
 #include <snake/term_util.h>
 
+void centeredText(char* s) {
+    set_cursor(
+            get_terminal_height() / 2,
+            get_terminal_width() / 2 - (int) strlen(s) / 2
+            );
+    printf("%s\r", s);
+    fflush(stdout);
+}
+
+int helloEverynyan(void* arg) {
+    for (int i = 0; i <= 255; i++) {
+        set_color(i);
+        centeredText("Hello everynyan.");
+        thrd_sleep(&(struct timespec){.tv_nsec=33333333}, NULL);
+        clear_line(get_terminal_height() / 2);
+        if (i == 255) i = 0;
+    }
+    return 0;
+}
+
 int main() {
     enable_raw_terminal();
+    enable_alt_buffer();
+    clear_screen();
+    hide_cursor();
 
-    struct winsize sz;
-    ioctl(1, TIOCGWINSZ, &sz);
+    char* info = "Press Q to quit.";
+    set_cursor(
+            get_terminal_height() / 2 + 2,
+            get_terminal_width() / 2 - (int) strlen(info) / 2
+            );
+    printf("%s", info);
 
-    char* hello = "My cursor is here.";
-
-    print_escape_code("[2J");
-    print_escape_code("[1;1H");
-    printf("\33[%d;%dH", sz.ws_row/2, sz.ws_col/2 - (int)strlen(hello)/2);
-    fflush(stdout);
-
-    printf("%s\r", hello);
-    fflush(stdout);
+    thrd_t hallo;
+    thrd_create(&hallo, helloEverynyan, NULL);
 
     char c = '1';
     while (c != 'q') {
         read(STDIN_FILENO, &c, 1);
+        if (c == 'e') {
+            printf("\r\n");
+            for (int i = 0; i < get_terminal_width(); i++) {
+                printf("#");
+            }
+            printf("\r");
+            fflush(stdout);
+        }
     }
 
-    print_escape_code("[2K");
-    printf("\33[%d;%dH", sz.ws_row, 1);
-    printf("Farewell...\r\n");
+    clear_current_line();
+    clear_line(get_terminal_height() / 2 + 2);
+    disable_alt_buffer();
+    set_color(3);
+    printf("Farewell everynyan...\r\n");
     return 0;
 }
