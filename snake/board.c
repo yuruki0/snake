@@ -14,8 +14,11 @@ Board* board_init(int n) {
 void board_snake_start(Board* b) {
     srand(time(NULL));
 }
-TileState board_get_tile(Board* b, int x, int y) {
-    return b->tiles[x + b->size * y];
+TileState board_get_tile(Board* b, Coord c) {
+    return b->tiles[c.x + b->size * c.y];
+}
+void board_set_tile(Board* b, Coord c, TileState t) {
+    b->tiles[c.x + b->size * c.y] = t;
 }
 void board_delete(Board* b) {
     free(b->tiles);
@@ -23,9 +26,20 @@ void board_delete(Board* b) {
 }
 void board_move_apple(Board* b) {
     int i = rand() % (b->size * b->size);
-    while (b->tiles[i] == occupied) {
+    while (b->tiles[i] != unoccupied) {
         if (++i == b->size * b->size)
             i = 0;
     }
     b->tiles[i] = apple;
+}
+bool validate_coord(Board* b, Coord* c) {
+    if (c->x < 0)
+        return false;
+    if (c->x >= b->size)
+        return false;
+    if (c->y < 0)
+        return false;
+    if (c->y >= b->size)
+        return false;
+    return true;
 }
