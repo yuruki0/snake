@@ -3,7 +3,7 @@
 
 #include <unity/unity.h>
 
-#include "snake/input_queue.h"
+#include <snake/input_queue.h>
 
 void test_OneItemRepeatedPop() {
     srand(time(NULL));
