@@ -7,8 +7,8 @@
 
 enum input_keys {
     UP = 'w',
-    DOWN = 'a',
-    LEFT = 's',
+    DOWN = 's',
+    LEFT = 'a',
     RIGHT = 'd',
     QUIT = 'q'
 };
@@ -17,6 +17,6 @@ void snake_start(int size);
 
 int listen_inputs(void* args);
 
-int advance_game_state(Board* b, InputQueue* iq, CoordQueue* snake);
+int advance_game_state(Board* b, char direction, CoordQueue* snake);
 
 #endif

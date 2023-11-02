@@ -14,11 +14,11 @@
 
 bool debug;
 int state;
-int (*advance) (Board*, InputQueue*, CoordQueue*);
+int (*advance) (Board*, char, CoordQueue*);
 
-int debug_advance_game_state(Board* b, InputQueue* iq, CoordQueue* cq) {
+int debug_advance_game_state(Board* b, char c, CoordQueue* cq) {
     printf("\nAdvancing.\n");
-    state = advance_game_state(b, iq, cq);
+    state = advance_game_state(b, c, cq);
     printf("Board:\n");
     print_board_canonical(b);
     print_coord_queue(cq);
@@ -43,18 +43,18 @@ void test_NoInputThreeSteps() {
         print_coord_queue(snake);
     }
 
-    state = advance(b, iq, snake);
+    state = advance(b, input_queue_pop(iq), snake);
     TEST_ASSERT(state == 0);
     TEST_ASSERT(board_get_tile(b, init) == UNOCCUPIED);
     TEST_ASSERT(board_get_tile(b, (Coord) {0, 1}) == OCCUPIED);
 
-    state = advance(b, iq, snake);
+    state = advance(b, input_queue_pop(iq), snake);
     TEST_ASSERT(state == 0);
     TEST_ASSERT(board_get_tile(b, init) == UNOCCUPIED);
     TEST_ASSERT(board_get_tile(b, (Coord) {0, 1}) == UNOCCUPIED);
     TEST_ASSERT(board_get_tile(b, (Coord) {0, 2}) == OCCUPIED);
 
-    state = advance(b, iq, snake);
+    state = advance(b, input_queue_pop(iq), snake);
     TEST_ASSERT(state == 1);
     
     input_queue_delete(iq);
@@ -111,7 +111,7 @@ void test_TwoSnakeFiveSteps() {
 
     int state;
     for (int i = 0; i < 5; i++) {
-        state = advance(b, iq, snake);
+        state = advance(b, input_queue_pop(iq), snake);
         if (i == 4) {
             TEST_ASSERT(state == 1);
             continue;
