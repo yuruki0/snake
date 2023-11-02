@@ -21,6 +21,6 @@ enum TileState board_get_tile(Board* b, Coord c);
 void board_set_tile(Board* b, Coord c, TileState t);
 void board_delete(Board* b);
 void board_move_apple(Board* b);
-bool validate_coord(Board* b, Coord* c);
+bool validate_coord(Board* b, Coord c);
 
 #endif

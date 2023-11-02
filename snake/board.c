@@ -32,14 +32,14 @@ void board_move_apple(Board* b) {
     }
     b->tiles[i] = APPLE;
 }
-bool validate_coord(Board* b, Coord* c) {
-    if (c->x < 0)
+bool validate_coord(Board* b, Coord c) {
+    if (c.x < 0)
         return false;
-    if (c->x >= b->size)
+    if (c.x >= b->size)
         return false;
-    if (c->y < 0)
+    if (c.y < 0)
         return false;
-    if (c->y >= b->size)
+    if (c.y >= b->size)
         return false;
     return true;
 }

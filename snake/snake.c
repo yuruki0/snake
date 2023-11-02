@@ -56,12 +56,11 @@ int advance_game_state(Board* b, InputQueue* iq, CoordQueue* snake) {
             coord.x++;
             break;
     }
-    if (!validate_coord(b, &coord))
+    if (!validate_coord(b, coord))
         return 1;
 
     TileState next = board_get_tile(b, coord);
 
-    coord_queue_push(snake, coord);
     Coord prev = coord_queue_peek(snake);
 
     switch (next) {
@@ -69,10 +68,12 @@ int advance_game_state(Board* b, InputQueue* iq, CoordQueue* snake) {
             return 1;
             break;
         case UNOCCUPIED:
+            coord_queue_push(snake, coord);
             coord_queue_pop(snake);
             board_set_tile(b, prev, UNOCCUPIED);
             break;
         case APPLE:
+            coord_queue_push(snake, coord);
             board_move_apple(b);
             break;
     }
