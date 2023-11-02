@@ -29,10 +29,8 @@ Coord coord_queue_pop(CoordQueue* queue) {
 }
 
 Coord coord_queue_peek_back(CoordQueue* queue) {
-    int i = queue->head;
-    if (i == 0) i = queue->capacity - 1;
-    else i--;
-    return queue->array[i];
+    if (queue->head == 0) return queue->array[queue->capacity - 1];
+    else return queue->array[queue->head - 1];
 }
 Coord coord_queue_peek(CoordQueue* queue) {
     return queue->array[queue->tail];
