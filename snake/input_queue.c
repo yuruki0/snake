@@ -1,5 +1,7 @@
-#include <snake/input_queue.h>
 #include <stdlib.h>
+
+#include <snake/input_queue.h>
+#include <snake/snake.h>
 
 InputQueue* input_queue_init(int capacity, char initial) {
     InputQueue* iq = malloc(sizeof(InputQueue));
@@ -18,6 +20,22 @@ void input_queue_delete(InputQueue* iq) {
 void input_queue_push(InputQueue* iq, char c) {
     if (iq->size == iq->capacity) return;
     if (iq->array[iq->head] == c) return;
+
+    switch (iq->array[iq->head]) {
+        case UP:
+            if (c == DOWN) return;
+            break;
+        case DOWN:
+            if (c == UP) return;
+            break;
+        case LEFT:
+            if (c == RIGHT) return;
+            break;
+        case RIGHT:
+            if (c == LEFT) return;
+            break;
+    }
+
     iq->size += 1;
     iq->head += 1;
     if (iq->head >= iq->capacity)
